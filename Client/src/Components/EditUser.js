@@ -39,7 +39,7 @@ function EditUser(props) {
     });
   };
 
-  const update = () => {
+  const update = async () => {
     let permitions = [];
     Object.keys(isChecked).map((p) => {
       permitions.push({ [p]: isChecked[p] });
@@ -58,7 +58,7 @@ function EditUser(props) {
     };
     console.log(obj);
 
-    // axios.put("http://localhost:3001/editUser", obj);
+    await axios.post("http://localhost:3001/users/editUser", obj);
   };
 
   return (

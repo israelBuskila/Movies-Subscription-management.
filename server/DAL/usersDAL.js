@@ -54,13 +54,25 @@ exports.addUser = function (obj) {
   });
 };
 
-exports.updateUser = function (id, obj) {
+//Need to test the function.
+exports.updateUserByUserName = async function (userName, obj) {
+  let user = await getUserByUserName(userName);
+  if (user[0] === undefined) return "User does not exist !";
+  let resp = await updateUser(user[0]._id, obj);
+  console.log(resp);
+};
+
+exports.updateUserById = function (id, obj) {
   return new Promise((resolve, reject) => {
     Users.findByIdAndUpdate(
       id,
       {
+        Id: obj.Id,
+        FirstName: obj.FirstName,
+        LastName: obj.LastName,
         UserName: obj.UserName,
-        Password: obj.Password,
+        CreatedDate: obj.CreatedDate,
+        SessionTimeOut: obj.sessionTimeOut,
       },
       function (err) {
         if (err) {
