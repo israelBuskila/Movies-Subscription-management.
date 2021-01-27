@@ -39,16 +39,15 @@ exports.getUserLoginById = function (id) {
 exports.addUserLogin = function (obj) {
   return new Promise((resolve, reject) => {
     const p = new UsersLogin({
-      FirstName: obj.FirstName,
-      LastName: obj.LastName,
-      City: obj.City,
+      UserName: obj.UserName,
+      Password: obj.Password,
     });
 
-    p.save(function (err) {
+    p.save(function (err, data) {
       if (err) {
         reject(err);
       } else {
-        resolve("Created !");
+        resolve(data._id);
       }
     });
   });

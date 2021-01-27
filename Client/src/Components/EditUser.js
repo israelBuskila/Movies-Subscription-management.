@@ -40,12 +40,12 @@ function EditUser(props) {
   };
 
   const update = async () => {
-    let permitions = [];
+    let permissions = [];
     Object.keys(isChecked).map((p) => {
-      permitions.push({ [p]: isChecked[p] });
+      permissions.push({ [p]: isChecked[p] });
     });
-    permitions.push({ viewSubscriptions: viewSubscriptions });
-    permitions.push({ viewMovies: viewMovies });
+    permissions.push({ viewSubscriptions: viewSubscriptions });
+    permissions.push({ viewMovies: viewMovies });
 
     let obj = {
       Id: props.user.Id,
@@ -53,39 +53,45 @@ function EditUser(props) {
       LastName: lastName,
       UserName: userName,
       CreatedDate: props.user.CreatedDate,
-      SessionTimeOut: sessionTimeOut,
-      Permitions: permitions,
+      SessionTimeOut: parseInt(sessionTimeOut),
+      Permissions: permissions,
     };
-    console.log(obj);
-
+    props.call("users");
     await axios.post("http://localhost:3001/users/editUser", obj);
   };
 
   return (
     <div>
-      <h2>Users</h2>
       <h3>
         Edit User: {props.user.FirstName} {props.user.LastName}
       </h3>
       <br />
       First Name:{" "}
-      <input type="text" value={firstName} onChange={(e) => setfirstName(e)} />
+      <input
+        type="text"
+        onChange={(e) => setfirstName(e.target.value)}
+        value={firstName}
+      />
       <br />
       Last Name:{" "}
-      <input type="text" value={lastName} onChange={(e) => setLastName(e)} />
+      <input
+        type="text"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+      />
       <br />
       User Name:{" "}
       <input
         type="text"
-        value={props.user.UserName}
-        onChange={(e) => setUserName(e)}
+        value={userName}
+        onChange={(e) => setUserName(e.target.value)}
       />
       <br />
       Session Time Out:{" "}
       <input
         type="text"
-        value={props.user.SessionTimeOut}
-        onChange={(e) => setSessionTimeOut(e)}
+        value={sessionTimeOut}
+        onChange={(e) => setSessionTimeOut(e.target.value)}
       />
       <br />
       Created Data: {props.user.CreatedDate}
@@ -157,7 +163,7 @@ function EditUser(props) {
       Update Movies
       <br />
       <input type="button" value="Update" onClick={update} />
-      <input type="button" value="Cancel" />
+      <input type="button" value="Cancel" onClick={() => props.call("users")} />
     </div>
   );
 }

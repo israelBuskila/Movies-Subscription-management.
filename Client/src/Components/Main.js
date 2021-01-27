@@ -11,7 +11,7 @@ const Main = () => {
   let history = useHistory();
   const session = useSession();
   const [toggle, setToggle] = useState("");
-  const [editUser, setEditUser] = useState();
+
   // if (session.isAuthenticated == false && session.isAdmin == false)
   //   return history.push("/");
   // else {
@@ -33,12 +33,6 @@ const Main = () => {
 
     return history.push("/");
   };
-  let toggleEditUsers = (user) => {
-    if (user !== undefined) {
-      setEditUser(user);
-      setToggle("edituser");
-    }
-  };
 
   return (
     <div>
@@ -57,13 +51,10 @@ const Main = () => {
       <br />
       {toggle == "movies" && <Movies />}
       {toggle == "subscription" && <Subscription />}
-      {toggle == "manageUsers" && (
-        <ManageUsers callback={(user) => toggleEditUsers(user)} />
-      )}
-      {toggle == "edituser" && <EditUser user={editUser} />}
+      {toggle == "manageUsers" && <ManageUsers />}
+
       <br />
     </div>
   );
-  // }
 };
 export default Main;

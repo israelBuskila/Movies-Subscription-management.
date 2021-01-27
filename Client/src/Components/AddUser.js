@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-function EditUser(props) {
+const AddUser = (props) => {
   const [firstName, setfirstName] = useState();
   const [lastName, setLastName] = useState();
   const [userName, setUserName] = useState();
@@ -10,89 +10,89 @@ function EditUser(props) {
   const [viewSubscriptions, setViewSubscriptions] = useState(false);
   const [viewMovies, setViewMovies] = useState(false);
   const [isChecked, setIsChecked] = useState({
-    createSubscriptions: false,
-    deleteSubscriptions: false,
-    updateSubscriptions: false,
-    createMovies: false,
-    deleteMovies: false,
-    updateMovies: false,
+    "Create Subscriptions": false,
+    "Delete Subscriptions": false,
+    "Update Subscriptions": false,
+    "Create Movies": false,
+    "Delete Movies": false,
+    "Update Movies": false,
   });
+
+  const save = async () => {
+    let permissions = [];
+    Object.keys(isChecked).map((p) => {
+      console.log(p);
+      if (isChecked[p]) permissions.push(p);
+    });
+    if (viewSubscriptions) permissions.push("View Subscriptions");
+    if (viewMovies) permissions.push("View Movies");
+
+    let obj = {
+      FirstName: firstName,
+      LastName: lastName,
+      UserName: userName,
+      SessionTimeOut: sessionTimeOut,
+      Permissions: permissions,
+    };
+    // props.call("users");
+    await axios.post("http://localhost:3001/users/addNewUser", obj);
+  };
 
   const handleChange = ({ target: { name, checked } }) => {
     if (
-      name == "createSubscriptions" ||
-      name == "updateSubscriptions" ||
-      name == "deleteSubscriptions"
+      name == "Create Subscriptions" ||
+      name == "Update Subscriptions" ||
+      name == "Delete Subscriptions"
     )
       setViewSubscriptions(checked);
     else if (
-      name == "createMovies" ||
-      name == "deleteMovies" ||
-      name == "updateMovies"
+      name == "Create Movies" ||
+      name == "Delete Movies" ||
+      name == "Update Movies"
     )
       setViewMovies(checked);
     setIsChecked({
       ...isChecked,
       [name]: checked,
     });
-    console.log(isChecked);
-  };
-
-  const update = () => {
-    let permitions = [];
-
-    let obj = {
-      Id: props.user.Id,
-      FirstName: firstName,
-      LastName: lastName,
-      UserName: userName,
-      SessionTimeOut: sessionTimeOut,
-    };
-    axios.put("http://localhost:3001/editUser", obj);
   };
 
   return (
     <div>
-      <h2>Users</h2>
-      <h3>
-        Edit User: {props.user.FirstName} {props.user.LastName}
-      </h3>
-      <br />
+      <h3>Add New User</h3>
       First Name:{" "}
       <input
         type="text"
-        value={props.user.FirstName}
-        onChange={(e) => setfirstName(e)}
+        onChange={(e) => setfirstName(e.target.value)}
+        value={firstName}
       />
       <br />
       Last Name:{" "}
       <input
         type="text"
-        value={props.user.LasttName}
-        onChange={(e) => setLastName(e)}
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
       />
       <br />
       User Name:{" "}
       <input
         type="text"
-        value={props.user.UserName}
-        onChange={(e) => setUserName(e)}
+        value={userName}
+        onChange={(e) => setUserName(e.target.value)}
       />
       <br />
       Session Time Out:{" "}
       <input
         type="text"
-        value={props.user.SessionTimeOut}
-        onChange={(e) => setSessionTimeOut(e)}
+        value={sessionTimeOut}
+        onChange={(e) => setSessionTimeOut(e.target.value)}
       />
-      <br />
-      Created Data: {props.user.CreatedDate}
       <br />
       Permissions:
       <br />
       <input
         type="checkbox"
-        name="viewSubscriptions"
+        name="View Subscriptions"
         checked={viewSubscriptions}
         onChange={(e) => setViewSubscriptions(e.target.checked)}
       />{" "}
@@ -100,7 +100,7 @@ function EditUser(props) {
       <br />
       <input
         type="checkbox"
-        name="createSubscriptions"
+        name="Create Subscriptions"
         checked={isChecked[0]}
         onChange={handleChange}
       />{" "}
@@ -108,7 +108,7 @@ function EditUser(props) {
       <br />
       <input
         type="checkbox"
-        name="deleteSubscriptions"
+        name="Delete Subscriptions"
         checked={isChecked[1]}
         onChange={handleChange}
       />{" "}
@@ -116,7 +116,7 @@ function EditUser(props) {
       <br />
       <input
         type="checkbox"
-        name="updateSubscriptions"
+        name="Update Subscriptions"
         checked={isChecked[2]}
         onChange={handleChange}
       />{" "}
@@ -124,7 +124,7 @@ function EditUser(props) {
       <br />
       <input
         type="checkbox"
-        name="viewMovies"
+        name="View Movies"
         checked={viewMovies}
         onChange={(e) => setViewMovies(e.target.checked)}
       />{" "}
@@ -132,7 +132,7 @@ function EditUser(props) {
       <br />
       <input
         type="checkbox"
-        name="createMovies"
+        name="Create Movies"
         checked={isChecked[3]}
         onChange={handleChange}
       />{" "}
@@ -140,7 +140,7 @@ function EditUser(props) {
       <br />
       <input
         type="checkbox"
-        name="deleteMovies"
+        name="Delete Movies"
         checked={isChecked[4]}
         onChange={handleChange}
       />{" "}
@@ -148,16 +148,20 @@ function EditUser(props) {
       <br />
       <input
         type="checkbox"
-        name="updateMovies"
+        name="Update Movies"
         checked={isChecked[5]}
         onChange={handleChange}
       />{" "}
       Update Movies
       <br />
-      <input type="button" value="Update" onClick={update} />
-      <input type="button" value="Cancel" />
+      <input type="button" value="Save" onClick={save} />
+      <input
+        type="button"
+        value="Cancel"
+        onClick={() => props.callback("allusers")}
+      />
     </div>
   );
-}
+};
 
-export default EditUser;
+export default AddUser;

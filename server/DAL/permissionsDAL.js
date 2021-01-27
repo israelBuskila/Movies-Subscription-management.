@@ -1,8 +1,8 @@
-const Users = require("../models/UsersModel");
+const UserPermissions = require("../models/PermissionsModel");
 
-exports.getAllUsers = function () {
+exports.getAllUsersPermission = function () {
   return new Promise((resolve, reject) => {
-    Users.find({}, function (err, pers) {
+    UserPermissions.find({}, function (err, pers) {
       if (err) {
         reject(err);
       } else {
@@ -12,9 +12,9 @@ exports.getAllUsers = function () {
   });
 };
 
-exports.getUserById = function (id) {
+exports.getUserPermissionsById = function (id) {
   return new Promise((resolve, reject) => {
-    Users.findById(id, function (err, per) {
+    UserPermissions.findById(id, function (err, per) {
       if (err) {
         reject(err);
       } else {
@@ -24,9 +24,9 @@ exports.getUserById = function (id) {
   });
 };
 
-exports.getUserByUserName = (userName) => {
+exports.getUserPermissionsByUserId = (userId) => {
   return new Promise((resolve, reject) => {
-    Users.find({ UserName: userName }, function (err, pers) {
+    UserPermissions.find({ Id: userId }, function (err, pers) {
       if (err) {
         reject(err);
       } else {
@@ -36,15 +36,11 @@ exports.getUserByUserName = (userName) => {
   });
 };
 
-exports.addUser = function (obj) {
+exports.addUserPermissions = function (id, permissions) {
   return new Promise((resolve, reject) => {
-    const p = new Users({
-      Id: obj.Id,
-      FirstName: obj.FirstName,
-      LastName: obj.LastName,
-      UserName: obj.UserName,
-      CreatedDate: obj.CreatedDate,
-      SessionTimeOut: obj.SessionTimeOut,
+    const p = new UserPermissions({
+      Id: id,
+      Permissions: permissions,
     });
 
     p.save(function (err) {
@@ -57,17 +53,13 @@ exports.addUser = function (obj) {
   });
 };
 
-exports.updateUserById = function (id, obj) {
+exports.updateUserPermissionsById = function (id, obj) {
   return new Promise((resolve, reject) => {
-    Users.findByIdAndUpdate(
+    UserPermissions.findByIdAndUpdate(
       id,
       {
         Id: obj.Id,
-        FirstName: obj.FirstName,
-        LastName: obj.LastName,
-        UserName: obj.UserName,
-        CreatedDate: obj.CreatedDate,
-        SessionTimeOut: obj.SessionTimeOut,
+        Permissions: obj.Permissions,
       },
       function (err) {
         if (err) {
@@ -80,9 +72,9 @@ exports.updateUserById = function (id, obj) {
   });
 };
 
-exports.deleteUser = function (id) {
+exports.deleteUserPermissions = function (id) {
   return new Promise((resolve, reject) => {
-    Users.findByIdAndDelete(id, function (err) {
+    UserPermissionss.findByIdAndDelete(id, function (err) {
       if (err) {
         reject(err);
       } else {
