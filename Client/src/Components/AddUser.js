@@ -34,7 +34,7 @@ const AddUser = (props) => {
       SessionTimeOut: sessionTimeOut,
       Permissions: permissions,
     };
-    // props.call("users");
+    props.callback("allusers");
     await axios.post("http://localhost:3001/users/addNewUser", obj);
   };
 

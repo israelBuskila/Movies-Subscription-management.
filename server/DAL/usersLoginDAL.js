@@ -47,7 +47,7 @@ exports.addUserLogin = function (obj) {
       if (err) {
         reject(err);
       } else {
-        resolve(data._id);
+        resolve(data.UserName);
       }
     });
   });

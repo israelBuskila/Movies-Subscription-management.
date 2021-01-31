@@ -39,7 +39,6 @@ exports.getUserByUserName = (userName) => {
 exports.addUser = function (obj) {
   return new Promise((resolve, reject) => {
     const p = new Users({
-      Id: obj.Id,
       FirstName: obj.FirstName,
       LastName: obj.LastName,
       UserName: obj.UserName,
@@ -62,7 +61,6 @@ exports.updateUserById = function (id, obj) {
     Users.findByIdAndUpdate(
       id,
       {
-        Id: obj.Id,
         FirstName: obj.FirstName,
         LastName: obj.LastName,
         UserName: obj.UserName,

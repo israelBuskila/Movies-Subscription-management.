@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
-
-const usersDAL = require("../DAL/usersDAL");
 const userBL = require("../BL/editUsers");
 
 router.get("/", async (req, res, next) => {
-  return res.send(await usersDAL.getAllUsers());
+  return res.send(await userBL.getAllUserWithPermissions());
 });
 
 // router.post("/createAccount", async (req, res, next) => {
@@ -15,14 +13,15 @@ router.get("/", async (req, res, next) => {
 // });
 
 router.post("/editUser", async (req, res, next) => {
-  userBL.updateUserByUserName(req.body.UserName, req.body);
+  await userBL.updateUserByUserName(req.body.UserName, req.body);
 });
-//nedd to extract the id from req and return the permissions for this user by id
-// router.get("/permissions/:id", async (req, res, next) => {
-//   userBL.updateUserByUserName(req.body.UserName, req.body);
-// });
+
+router.get("/deleteUser/:userName", async (req, res, next) => {
+  let resp = await userBL.deleteUserByUserId(req.params.userName);
+});
 
 router.post("/addNewUser", async (req, res, next) => {
+  console.log(req.body);
   let resp = await userBL.addNewUser(req.body);
 });
 

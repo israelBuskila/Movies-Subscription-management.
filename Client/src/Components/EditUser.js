@@ -12,12 +12,12 @@ function EditUser(props) {
   const [viewSubscriptions, setViewSubscriptions] = useState(false);
   const [viewMovies, setViewMovies] = useState(false);
   const [isChecked, setIsChecked] = useState({
-    createSubscriptions: false,
-    deleteSubscriptions: false,
-    updateSubscriptions: false,
-    createMovies: false,
-    deleteMovies: false,
-    updateMovies: false,
+    "Create Subscriptions": false,
+    "Delete Subscriptions": false,
+    "Update Subscriptions": false,
+    "Create Movies": false,
+    "Delete Movies": false,
+    "Update Movies": false,
   });
 
   const handleChange = ({ target: { name, checked } }) => {
@@ -42,13 +42,12 @@ function EditUser(props) {
   const update = async () => {
     let permissions = [];
     Object.keys(isChecked).map((p) => {
-      permissions.push({ [p]: isChecked[p] });
+      if (isChecked[p]) permissions.push(p);
     });
-    permissions.push({ viewSubscriptions: viewSubscriptions });
-    permissions.push({ viewMovies: viewMovies });
+    if (viewSubscriptions) permissions.push("View Subscriptions");
+    if (viewMovies) permissions.push("View Movies");
 
     let obj = {
-      Id: props.user.Id,
       FirstName: firstName,
       LastName: lastName,
       UserName: userName,

@@ -24,9 +24,9 @@ exports.getUserPermissionsById = function (id) {
   });
 };
 
-exports.getUserPermissionsByUserId = (userId) => {
+exports.getUserPermissionsByUserName = (userName) => {
   return new Promise((resolve, reject) => {
-    UserPermissions.find({ Id: userId }, function (err, pers) {
+    UserPermissions.find({ UserName: userName }, function (err, pers) {
       if (err) {
         reject(err);
       } else {
@@ -36,11 +36,11 @@ exports.getUserPermissionsByUserId = (userId) => {
   });
 };
 
-exports.addUserPermissions = function (id, permissions) {
+exports.addUserPermissions = function (obj) {
   return new Promise((resolve, reject) => {
     const p = new UserPermissions({
-      Id: id,
-      Permissions: permissions,
+      UserName: obj.UserName,
+      Permissions: obj.Permissions,
     });
 
     p.save(function (err) {
@@ -58,7 +58,7 @@ exports.updateUserPermissionsById = function (id, obj) {
     UserPermissions.findByIdAndUpdate(
       id,
       {
-        Id: obj.Id,
+        UserName: obj.UserName,
         Permissions: obj.Permissions,
       },
       function (err) {
@@ -74,7 +74,7 @@ exports.updateUserPermissionsById = function (id, obj) {
 
 exports.deleteUserPermissions = function (id) {
   return new Promise((resolve, reject) => {
-    UserPermissionss.findByIdAndDelete(id, function (err) {
+    UserPermissions.findByIdAndDelete(id, function (err) {
       if (err) {
         reject(err);
       } else {

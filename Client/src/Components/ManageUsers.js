@@ -41,13 +41,9 @@ const ManageUsers = (props) => {
       );
   };
 
-  const allUsers = users.map((item) => {
+  const allUsers = users.map((item, index) => {
     return (
-      <User
-        call={(user) => toggleEditUsers(user)}
-        person={item}
-        key={item._id}
-      />
+      <User call={(user) => toggleEditUsers(user)} person={item} key={index} />
     );
   });
 

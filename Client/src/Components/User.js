@@ -1,18 +1,15 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
 
 const User = (props) => {
-  const [permissions, setPermissions] = useState();
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/users/permissions/" + props.person.Id)
-      .then((resp) => setPermissions(resp.data));
-  }, []);
-
   const editUser = () => {
     props.call(props.person);
   };
-  const deleteUser = () => {};
+  const deleteUser = async () => {
+    window.location.reload();
+    const deleteUser = await axios.get(
+      "http://localhost:3001/users/deleteUser/" + props.person.UserName
+    );
+  };
 
   return (
     <div>
@@ -25,9 +22,14 @@ const User = (props) => {
       Created Data: {props.person.CreatedDate}
       <br />
       Permissions:
-      <br />
+      <ul>
+        {props.person.Permissions.map((x, i) => {
+          return <li key={i}>{x}</li>;
+        })}
+      </ul>
       <input type="button" value="Edit" onClick={editUser} />
       <input type="button" value="Delete" onClick={deleteUser} />
+      <br />
     </div>
   );
 };
