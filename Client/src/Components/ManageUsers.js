@@ -1,7 +1,7 @@
-import { useEffect, useState, useStste } from "react";
+import { useEffect, useState } from "react";
 
 import axios from "axios";
-import User from "./User";
+import User from "../Views/User";
 import EditUser from "./EditUser";
 import AddUser from "./AddUser";
 

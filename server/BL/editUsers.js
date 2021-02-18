@@ -41,25 +41,25 @@ exports.addNewUser = async (obj) => {
   console.log(respUser);
   let respPermissions = await permissionsDAL.addUserPermissions(obj);
   console.log(respPermissions);
+};
+exports.updateUserByUserName = async (userName, obj) => {
+  console.log("object");
+  let user = await userDal.getUserByUserName(userName);
+  console.log(user);
+  if (user[0] === undefined) return "User does not exist !";
+  await userDal.updateUserById(user[0]._id, obj);
+  console.log(user[0]._id);
 
-  exports.updateUserByUserName = async function (userName, obj) {
-    let user = await userDal.getUserByUserName(userName);
-    console.log(user);
-    if (user[0] === undefined) return "User does not exist !";
-    await userDal.updateUserById(user[0]._id, obj);
-    console.log(user[0]._id);
+  let userPermission = await permissionsDAL.getUserPermissionsByUserName(
+    userName
+  );
 
-    let userPermission = await permissionsDAL.getUserPermissionsByUserName(
-      userName
-    );
-
-    if (userPermission[0] === undefined) return "User does not exist !";
-    let resp = await permissionsDAL.updateUserPermissionsById(
-      userPermission[0]._id,
-      obj
-    );
-    console.log(resp);
-  };
+  if (userPermission[0] === undefined) return "User does not exist !";
+  let resp = await permissionsDAL.updateUserPermissionsById(
+    userPermission[0]._id,
+    obj
+  );
+  console.log(resp);
 };
 
 exports.deleteUserByUserId = async (userName) => {

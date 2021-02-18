@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
 // });
 
 router.post("/editUser", async (req, res, next) => {
-  await userBL.updateUserByUserName(req.body.UserName, req.body);
+  let resp = await userBL.updateUserByUserName(req.body.UserName, req.body);
 });
 
 router.get("/deleteUser/:userName", async (req, res, next) => {

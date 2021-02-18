@@ -3,11 +3,10 @@ const mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
 let MoviesSchema = new Schema({
-  Name: String,
-  Genres: Array,
-  Image: String,
-  SessionTimeOut: Number,
-  Premired: Date,
+  name: String,
+  genres: Array,
+  image: Object,
+  premiered: String,
 });
 
 module.exports = mongoose.model("movies", MoviesSchema);

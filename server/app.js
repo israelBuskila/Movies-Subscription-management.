@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 
 const usersLoginRoutes = require("./routes/usersLogin");
 const usersRoutes = require("./routes/users");
+const moviesRoutes = require("./routes/movies");
 
 //DB
 require("./configs/database");
@@ -17,5 +18,6 @@ app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
 
 app.use("/", usersLoginRoutes);
 app.use("/users", usersRoutes);
+app.use("/movies", moviesRoutes);
 
 app.listen(3001);
