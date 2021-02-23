@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Movie from "../Views/Movie";
+import AddMovie from "./AddMovie";
 
 const Movies = () => {
   const [movies, setMovies] = useState();
@@ -18,6 +19,23 @@ const Movies = () => {
       return movies.map((item, index) => {
         return <Movie key={index} movie={item} />;
       });
+  };
+
+  const addMovie = () => {
+    return <AddMovie />;
+  };
+  const findButton = () => {
+    return (
+      <div>
+        Find Button:{" "}
+        <input type="text" onChange={(e) => setFind(e.target.value)} />
+        <input
+          type="button"
+          value="Find"
+          onClick={() => setToggle("findMovie")}
+        />
+      </div>
+    );
   };
 
   const findMovie = () => {
@@ -44,16 +62,12 @@ const Movies = () => {
         value="Add movie"
         onClick={() => setToggle("addMovie")}
       />{" "}
-      Find Movie:
-      <input type="text" onChange={(e) => setFind(e.target.value)} />
-      <input
-        type="button"
-        value="Find"
-        onClick={() => setToggle("findMovie")}
-      />
+      {toggle == "allMovies" && findButton()}
       <br />
       {toggle == "allMovies" && allMovies()}
       {toggle == "findMovie" && findMovie()}
+      <br />
+      {toggle == "addMovie" && addMovie()}
     </div>
   );
 };

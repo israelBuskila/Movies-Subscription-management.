@@ -42,7 +42,7 @@ exports.addMovie = function (obj) {
       name: obj.name,
       genres: obj.genres,
       image: obj.image,
-      premired: obj.date,
+      premiered: obj.premiered,
     });
 
     m.save(function (err) {

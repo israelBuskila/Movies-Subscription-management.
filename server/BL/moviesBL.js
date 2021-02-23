@@ -3,19 +3,18 @@ const moviesDAL = require("../DAL/moviesDAL");
 const subscriptionsDAL = require("../DAL/subscriptionsDAL");
 const membersDAL = require("../DAL/membersDAL");
 
-exports.getAllmoviesWithSubscriptions = async () => {
-  let resp1 = await axios.get("https://api.tvmaze.com/shows");
+exports.initDB = async () => {
+  let resp1 = await axios.get("http://api.tvmaze.com/shows?page=1");
   let moviesApi = resp1.data;
+  moviesApi.forEach(async (x) => {
+    return await moviesDAL.addMovie(x);
+  });
+};
 
-  let moviesDB = await moviesDAL.getAllMovies();
+exports.getAllmoviesWithSubscriptions = async () => {
+  let allMovies = await moviesDAL.getAllMovies();
 
-  let allMovies = moviesApi.concat(moviesDB);
-
-  let resp2 = await axios.get("https://jsonplaceholder.typicode.com/users");
-  let membersApi = resp2.data;
-
-  let membersDB = await membersDAL.getAllMembers();
-  let allMembers = membersApi.concat(membersDB);
+  let allMembers = await membersDAL.getAllMembers();
 
   let subscriptions = await subscriptionsDAL.getAllSubscriptions();
 
@@ -23,16 +22,19 @@ exports.getAllmoviesWithSubscriptions = async () => {
   allMovies.forEach((movie) => {
     let arr = [];
     subscriptions.forEach((sub) => {
-      let mov = sub.Movies.filter((m) => m.movieId == movie.id);
+      let mov = sub.Movies.filter((m) => m.movieId == movie._id);
 
       if (mov.length > 0) {
-        let member = allMembers.filter((member) => member.id == sub.MemberId);
+        let member = allMembers.filter((member) => member._id == sub.MemberId);
+
         if (member.length > 0) {
           let watchMovie = {
+            subscriptionId: sub._id,
             memberId: member[0].id,
-            memberName: member[0].name,
+            memberName: member[0].Name,
             date: mov[0].date,
           };
+          console.log(watchMovie);
           arr.push(watchMovie);
         }
       }
@@ -41,8 +43,8 @@ exports.getAllmoviesWithSubscriptions = async () => {
       id: movie.id,
       name: movie.name,
       genres: movie.genres,
-      image: movie.image,
       premiered: movie.premiered,
+      image: movie.image,
       watchMovie: arr,
     };
 
@@ -52,13 +54,17 @@ exports.getAllmoviesWithSubscriptions = async () => {
   return allMoviesWithsubscriptions;
 };
 
-exports.deleteMovieById = async (id) => {
-  //if exist in DB so delete
-
-  if (id.match(/^[0-9a-fA-F]{24}$/)) {
-    let resp = await moviesDAL.deleteMovie(id);
-    console.log(resp);
-  }
+exports.deleteMovieById = async (movie) => {
+  let resp = await moviesDAL.deleteMovie(movie.id);
+  console.log(resp);
 
   //delete subscription
+  movie.watchMovie.forEach(async (x) => {
+    return await subscriptionsDAL.deleteSubscription(x.subscriptionId);
+  });
+};
+
+exports.addMovie = async (movie) => {
+  let resp = await moviesDAL.addMovie(movie);
+  console.log(resp);
 };

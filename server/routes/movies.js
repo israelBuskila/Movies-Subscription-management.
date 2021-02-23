@@ -6,8 +6,12 @@ router.get("/", async (req, res, next) => {
   return res.send(await moviesBL.getAllmoviesWithSubscriptions());
 });
 
-router.get("/deleteMovie/:id", async (req, res, next) => {
-  let resp = await moviesBL.deleteMovieById(req.params.id);
+router.post("/deleteMovie", async (req, res, next) => {
+  let resp = await moviesBL.deleteMovieById(req.body);
+});
+
+router.post("/addMovie", async (req, res, next) => {
+  let resp = await moviesBL.addMovie(req.body);
 });
 
 module.exports = router;
