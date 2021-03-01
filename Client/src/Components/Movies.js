@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Movie from "../Views/Movie";
 import AddMovie from "./AddMovie";
+import EditMovie from "./EditMovie";
 
 const Movies = () => {
   const [movies, setMovies] = useState();
+  const [movie, setMovie] = useState();
   const [toggle, setToggle] = useState("allMovies");
   const [find, setFind] = useState();
 
@@ -17,13 +19,22 @@ const Movies = () => {
   const allMovies = () => {
     if (movies)
       return movies.map((item, index) => {
-        return <Movie key={index} movie={item} />;
+        return (
+          <Movie
+            key={index}
+            movie={item}
+            call={(mc) => {
+              toggleEditMovie(mc);
+            }}
+          />
+        );
       });
   };
 
   const addMovie = () => {
-    return <AddMovie />;
+    return <AddMovie callback={() => setToggle("allMovies")} />;
   };
+
   const findButton = () => {
     return (
       <div>
@@ -48,6 +59,21 @@ const Movies = () => {
     }
   };
 
+  const toggleEditMovie = (m) => {
+    if (m !== undefined) {
+      setMovie(m);
+      setToggle("editMovie");
+    }
+  };
+  const editMovie = () => {
+    return (
+      <EditMovie
+        movie={movie}
+        callback={() => setToggle("allMovies")}
+      ></EditMovie>
+    );
+  };
+
   return (
     <div>
       <h1>Movies</h1>
@@ -68,6 +94,7 @@ const Movies = () => {
       {toggle == "findMovie" && findMovie()}
       <br />
       {toggle == "addMovie" && addMovie()}
+      {toggle == "editMovie" && editMovie()}
     </div>
   );
 };

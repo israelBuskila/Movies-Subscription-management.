@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import ManageUsers from "./ManageUsers";
 import Movies from "./Movies";
-import Subscription from "./Subscription";
+import Subscriptions from "./Subscriptions";
 import EditUser from "./EditUser";
 
 const Main = () => {
@@ -50,7 +50,7 @@ const Main = () => {
       <input type="button" value="Log Out" onClick={() => logOut()} />
       <br />
       {toggle == "movies" && <Movies />}
-      {toggle == "subscription" && <Subscription />}
+      {toggle == "subscription" && <Subscriptions />}
       {toggle == "manageUsers" && <ManageUsers />}
 
       <br />

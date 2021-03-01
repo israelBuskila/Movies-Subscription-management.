@@ -6,10 +6,12 @@ const Movie = (props) => {
     if (props.movie.premiered) return props.movie.premiered.split("-", 1);
   };
 
-  const editMovie = () => {};
+  const editMovie = () => {
+    props.call(props.movie);
+  };
 
   const deleteMovie = async () => {
-    window.location.reload();
+    window.location.href = "/movies";
     await axios.post("http://localhost:3001/movies/deleteMovie", props.movie);
   };
 

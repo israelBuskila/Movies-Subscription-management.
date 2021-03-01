@@ -14,4 +14,8 @@ router.post("/addMovie", async (req, res, next) => {
   let resp = await moviesBL.addMovie(req.body);
 });
 
+router.post("/editMovie", async (req, res, next) => {
+  let resp = await moviesBL.editMovie(req.body);
+});
+
 module.exports = router;

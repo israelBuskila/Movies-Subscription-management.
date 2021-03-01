@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "./Components/Login";
 import CreateAccount from "./Components/CreateAccount";
 import Main from "./Components/Main";
+import Movies from "./Components/Movies";
+import ManageUsers from "./Components/ManageUsers";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
           <Route exact path="/" component={Login} />
           <Route exact path="/createAccount" component={CreateAccount} />
           <Route exact path="/main" component={Main} />
+          <Route exact path="/movies" component={Movies} />
+          <Route exact path="/manageUsers" component={ManageUsers} />
         </Switch>
       </div>
     </Router>

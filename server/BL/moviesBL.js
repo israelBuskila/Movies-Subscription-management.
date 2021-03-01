@@ -68,3 +68,9 @@ exports.addMovie = async (movie) => {
   let resp = await moviesDAL.addMovie(movie);
   console.log(resp);
 };
+
+exports.editMovie = async (movie) => {
+  console.log(movie);
+  let resp = await moviesDAL.updateMovieById(movie.id, movie);
+  console.log(resp);
+};
