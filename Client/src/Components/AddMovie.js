@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-const AddMovie = () => {
+const AddMovie = (props) => {
   const [Name, setName] = useState();
   const [Genres, setGenres] = useState();
   const [Image, setImage] = useState();
@@ -19,7 +19,6 @@ const AddMovie = () => {
     await axios.post("http://localhost:3001/movies/addMovie", obj);
   };
 
-  const cancel = () => {};
   return (
     <div>
       Name: <input type="text" onChange={(e) => setName(e.target.value)} />
@@ -33,7 +32,7 @@ const AddMovie = () => {
       <input type="text" onChange={(e) => setPremiered(e.target.value)} />
       <br />
       <input type="button" value="save" onClick={save} />
-      <input type="button" value="cancel" onClick={cancel()} />
+      <input type="button" value="cancel" onClick={() => props.callback()} />
     </div>
   );
 };
