@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Member from "../Views/Member";
+import Member from "./Member";
 
 const Subscriptions = () => {
   const [toggle, setToggle] = useState("All Members");
