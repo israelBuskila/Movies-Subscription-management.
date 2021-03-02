@@ -2,7 +2,6 @@ const membersDAL = require("../DAL/membersDAL");
 const subscriptionDAL = require("../DAL/subscriptionsDAL");
 const moviesDAL = require("../DAL/moviesDAL");
 const axios = require("axios");
-const { move } = require("../routes/users");
 
 exports.initDB = async () => {
   let resp1 = await axios.get("https://jsonplaceholder.typicode.com/users");
@@ -21,7 +20,6 @@ exports.getAllSubscriptionsWithMembers = async () => {
   let allMovies = await moviesDAL.getAllMovies();
 
   let allsubscriptions = await subscriptionDAL.getAllSubscriptions();
-  console.log(allsubscriptions);
 
   let allMembers = await membersDAL.getAllMembers();
 
@@ -41,15 +39,31 @@ exports.getAllSubscriptionsWithMembers = async () => {
           moviesWatched.push(moviesObj);
         }
       });
+
+      let finalMember = {
+        SubId: sub[0]._id,
+        MemberId: m._id,
+        Name: m.Name,
+        City: m.City,
+        Email: m.Email,
+        MoviesWathced: moviesWatched,
+      };
+      allMembersWithSubs.push(finalMember);
     }
-    let finalMember = {
-      MemberId: m._id,
-      Name: m.Name,
-      City: m.City,
-      Email: m.Email,
-      MoviesWathced: moviesWatched,
-    };
-    allMembersWithSubs.push(finalMember);
   });
   return allMembersWithSubs;
+};
+
+exports.subMovies = async (watchMovie) => {
+  let arr = [];
+  let allMovies = await moviesDAL.getAllMovies();
+  allMovies.forEach((x) => {
+    let result = false;
+    watchMovie.forEach((m) => {
+      if (x.name == m.name) result = true;
+    });
+    if (result == false) arr.push(x.name);
+  });
+  // console.log(arr);
+  return arr;
 };
