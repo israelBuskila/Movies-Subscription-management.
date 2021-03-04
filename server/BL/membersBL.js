@@ -39,18 +39,17 @@ exports.getAllSubscriptionsWithMembers = async () => {
           moviesWatched.push(moviesObj);
         }
       });
-
-      let finalMember = {
-        SubId: sub[0]._id,
-        MemberId: m._id,
-        Name: m.Name,
-        City: m.City,
-        Email: m.Email,
-        MoviesWathced: moviesWatched,
-      };
-      allMembersWithSubs.push(finalMember);
     }
+    let finalMember = {
+      MemberId: m._id,
+      Name: m.Name,
+      City: m.City,
+      Email: m.Email,
+      MoviesWathced: moviesWatched,
+    };
+    allMembersWithSubs.push(finalMember);
   });
+  // console.log(allMembersWithSubs);
   return allMembersWithSubs;
 };
 
@@ -62,8 +61,34 @@ exports.subMovies = async (watchMovie) => {
     watchMovie.forEach((m) => {
       if (x.name == m.name) result = true;
     });
-    if (result == false) arr.push(x.name);
+    if (result == false) arr.push(x);
   });
   // console.log(arr);
   return arr;
+};
+
+exports.addSub = async (newSub) => {
+  let sub = await subscriptionDAL.getSubscriptionByMemberId(newSub.MemberId);
+
+  if (sub.length > 0) {
+    let arrMovies = sub[0].Movies;
+    arrMovies.push(newSub.Movie);
+    console.log(arrMovies);
+    let obj = {
+      MemberId: newSub.MemberId,
+      Movies: arrMovies,
+    };
+    let resp = await subscriptionDAL.updateSubscriptionById(sub[0]._id, obj);
+    console.log(resp);
+  } else {
+    let arr = [];
+    arr.push(newSub.Movie);
+    let obj = {
+      MemberId: newSub.MemberId,
+      Movies: arr,
+    };
+
+    let resp = await subscriptionDAL.addSubscription(obj);
+    console.log(resp);
+  }
 };

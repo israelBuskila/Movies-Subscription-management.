@@ -24,17 +24,17 @@ exports.getSubscriptionById = function (id) {
   });
 };
 
-// exports.getUserByUserName = (userName) => {
-//   return new Promise((resolve, reject) => {
-//     Subscriptions.find({ UserName: userName }, function (err, pers) {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(pers);
-//       }
-//     });
-//   });
-// };
+exports.getSubscriptionByMemberId = (memberId) => {
+  return new Promise((resolve, reject) => {
+    Subscriptions.find({ MemberId: memberId }, function (err, sub) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(sub);
+      }
+    });
+  });
+};
 
 exports.addSubscription = function (obj) {
   return new Promise((resolve, reject) => {

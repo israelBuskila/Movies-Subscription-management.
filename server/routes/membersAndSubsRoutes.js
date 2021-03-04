@@ -9,4 +9,8 @@ router.get("/", async (req, res, next) => {
 router.post("/subMovies", async (req, res, next) => {
   res.send(await membersBL.subMovies(req.body));
 });
+
+router.post("/addSub", async (req, res, next) => {
+  await membersBL.addSub(req.body);
+});
 module.exports = router;
