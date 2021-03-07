@@ -49,7 +49,7 @@ exports.getAllSubscriptionsWithMembers = async () => {
     };
     allMembersWithSubs.push(finalMember);
   });
-  // console.log(allMembersWithSubs);
+  console.log(allMembersWithSubs);
   return allMembersWithSubs;
 };
 
@@ -91,4 +91,25 @@ exports.addSub = async (newSub) => {
     let resp = await subscriptionDAL.addSubscription(obj);
     console.log(resp);
   }
+};
+
+exports.updateMemberById = async (member) => {
+  return await membersDAL.updateMemberById(member.Id, member);
+};
+
+exports.deleteMember = async (memberId) => {
+  let subscriptionId = await subscriptionDAL.getSubscriptionByMemberId(
+    memberId
+  );
+  if (subscriptionId.length > 0) {
+    let resp = await subscriptionDAL.deleteSubscription(subscriptionId[0]._id);
+    console.log("subscription: " + resp);
+    let respMember = await membersDAL.deleteMember(memberId);
+    console.log("member: " + respMember);
+  }
+};
+
+exports.addMember = async (newMember) => {
+  let resp = await membersDAL.addMember(newMember);
+  console.log(resp);
 };
