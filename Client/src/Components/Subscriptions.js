@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Member from "./Member";
+import EditMember from "./EditMember";
+import AddMember from "./AddMember";
 
 const Subscriptions = () => {
-  const [toggle, setToggle] = useState("All Members");
+  const [toggle, setToggle] = useState("AllMembers");
   const [members, setMembers] = useState();
+  const [member, setMember] = useState(null);
 
   useEffect(() => {
     axios
@@ -12,27 +15,57 @@ const Subscriptions = () => {
       .then((resp) => setMembers(resp.data));
   }, []);
 
+  const showButton = () => {
+    return (
+      <div>
+        <h2>Subscription</h2>
+        <input
+          type="button"
+          onClick={() => setToggle("AllMembers")}
+          value="All Members"
+        />
+        <input
+          type="button"
+          onClick={() => setToggle("addMember")}
+          value="Add Member"
+        />
+      </div>
+    );
+  };
   const allMembers = () => {
     if (members) {
       return members.map((item, index) => {
-        return <Member key={index} member={item} />;
+        return (
+          <Member
+            key={index}
+            member={item}
+            call={(em) => toggleEditMember(em)}
+          />
+        );
       });
     }
   };
+
+  const toggleEditMember = (mem) => {
+    if (mem != undefined) {
+      setMember(mem);
+      setToggle("editMember");
+    }
+  };
+
+  const editMember = () => {
+    return <EditMember member={member} call={() => setToggle("AllMembers")} />;
+  };
+  const addMember = () => {
+    return <AddMember call={() => setToggle("AllMembers")} />;
+  };
+
   return (
     <div>
-      <h2>Subscription</h2>
-      <input
-        type="button"
-        onClick={() => setToggle("All Members")}
-        value="All Members"
-      />
-      <input
-        type="button"
-        onClick={() => setToggle("Add Members")}
-        value="Add Members"
-      />
-      {toggle == "All Members" && allMembers()}
+      {(toggle == "AllMembers" || toggle == "addMember") && showButton()}
+      {toggle == "AllMembers" && allMembers()}
+      {toggle == "editMember" && editMember()}
+      {toggle == "addMember" && addMember()}
     </div>
   );
 };
