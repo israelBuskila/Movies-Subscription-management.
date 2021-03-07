@@ -33,7 +33,7 @@ const AddSubs = (props) => {
     //   setChoice(movies[0]._id);
     //   console.log(choice);
     // }
-
+    window.location.reload();
     let obj = {
       MemberId: props.member.MemberId,
       Movie: { movieId: choice, date: date },
