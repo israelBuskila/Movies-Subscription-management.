@@ -13,4 +13,17 @@ router.post("/subMovies", async (req, res, next) => {
 router.post("/addSub", async (req, res, next) => {
   await membersBL.addSub(req.body);
 });
+
+router.post("/updateMember", async (req, res, next) => {
+  await membersBL.updateMemberById(req.body);
+});
+
+router.get("/deleteMember/:id", async (req, res, next) => {
+  await membersBL.deleteMember(req.params.id);
+});
+
+router.post("/addMember", async (req, res, next) => {
+  await membersBL.addMember(req.body);
+});
+
 module.exports = router;
