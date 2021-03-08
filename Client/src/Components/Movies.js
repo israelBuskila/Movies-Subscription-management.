@@ -4,7 +4,7 @@ import Movie from "../Views/Movie";
 import AddMovie from "./AddMovie";
 import EditMovie from "./EditMovie";
 
-const Movies = () => {
+const Movies = (props) => {
   const [movies, setMovies] = useState();
   const [movie, setMovie] = useState();
   const [toggle, setToggle] = useState("allMovies");
@@ -14,6 +14,9 @@ const Movies = () => {
     axios
       .get("http://localhost:3001/movies")
       .then((resp) => setMovies(resp.data));
+    if (props.location !== undefined) {
+      setToggle("movieLink");
+    }
   }, []);
 
   const allMovies = () => {
@@ -54,7 +57,14 @@ const Movies = () => {
       let result = movies.filter((x) => x.name == find);
       if (result.length > 0) {
         console.log(result[0]);
-        return <Movie movie={result[0]} />;
+        return (
+          <Movie
+            movie={result[0]}
+            call={(mc) => {
+              toggleEditMovie(mc);
+            }}
+          />
+        );
       }
     }
   };
@@ -72,6 +82,24 @@ const Movies = () => {
         callback={() => setToggle("allMovies")}
       ></EditMovie>
     );
+  };
+
+  const movieFromLink = () => {
+    if (movies) {
+      let result = movies.filter(
+        (x) => x.name == props.location.state.item.name
+      );
+      if (result.length > 0) {
+        return (
+          <Movie
+            movie={result[0]}
+            call={(mc) => {
+              toggleEditMovie(mc);
+            }}
+          />
+        );
+      }
+    }
   };
 
   return (
@@ -95,6 +123,7 @@ const Movies = () => {
       <br />
       {toggle == "addMovie" && addMovie()}
       {toggle == "editMovie" && editMovie()}
+      {toggle == "movieLink" && movieFromLink()}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import CreateAccount from "./Components/CreateAccount";
 import Main from "./Components/Main";
 import Movies from "./Components/Movies";
 import ManageUsers from "./Components/ManageUsers";
+import Movie from "./Views/Movie";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route exact path="/main" component={Main} />
           <Route exact path="/movies" component={Movies} />
           <Route exact path="/manageUsers" component={ManageUsers} />
+          <Route exact path="/movie" component={Movie} />
         </Switch>
       </div>
     </Router>

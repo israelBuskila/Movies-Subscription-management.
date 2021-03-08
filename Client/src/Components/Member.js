@@ -21,7 +21,7 @@ const Member = (props) => {
     return props.member.MoviesWathced.map((item, index) => {
       return (
         <li key={index}>
-          <Link>{item.name}</Link>
+          <Link to={{ pathname: "/movies", state: { item } }}>{item.name}</Link>
           {", "}
           {item.date}
         </li>
