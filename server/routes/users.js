@@ -6,11 +6,9 @@ router.get("/", async (req, res, next) => {
   return res.send(await userBL.getAllUserWithPermissions());
 });
 
-// router.post("/createAccount", async (req, res, next) => {
-//   let a = await auth.createUser(req.body.UserName, req.body.Password);
-
-//   return res.send(a);
-// });
+router.post("/getPermissions", async (req, res, next) => {
+  return res.send(await userBL.getPermissionsByUserName(req.body.userName));
+});
 
 router.post("/editUser", async (req, res, next) => {
   let resp = await userBL.updateUserByUserName(req.body.UserName, req.body);

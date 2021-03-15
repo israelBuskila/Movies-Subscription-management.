@@ -34,7 +34,7 @@ exports.getAllmoviesWithSubscriptions = async () => {
             memberName: member[0].Name,
             date: mov[0].date,
           };
-          console.log(watchMovie);
+
           arr.push(watchMovie);
         }
       }

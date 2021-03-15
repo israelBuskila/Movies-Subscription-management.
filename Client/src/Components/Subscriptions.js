@@ -3,16 +3,25 @@ import axios from "axios";
 import Member from "./Member";
 import EditMember from "./EditMember";
 import AddMember from "./AddMember";
+import { useHistory } from "react-router-dom";
 
-const Subscriptions = () => {
+const Subscriptions = (props) => {
   const [toggle, setToggle] = useState("AllMembers");
   const [members, setMembers] = useState();
   const [member, setMember] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/subscriptions")
-      .then((resp) => setMembers(resp.data));
+    if (JSON.parse(sessionStorage.getItem("userInfo"))) {
+      if (JSON.parse(sessionStorage.getItem("userInfo")).Login == true) {
+        axios
+          .get("http://localhost:3001/subscriptions")
+          .then((resp) => setMembers(resp.data));
+        if (props.location !== undefined) {
+          setToggle("memberLink");
+        }
+      }
+    } else return history.push("/");
   }, []);
 
   const showButton = () => {
@@ -60,12 +69,26 @@ const Subscriptions = () => {
     return <AddMember call={() => setToggle("AllMembers")} />;
   };
 
+  const memberFromLink = () => {
+    if (members) {
+      let result = members.filter(
+        (x) => x.Name == props.location.state.item.memberName
+      );
+      if (result.length > 0) {
+        return (
+          <Member member={result[0]} call={(em) => toggleEditMember(em)} />
+        );
+      }
+    }
+  };
+
   return (
     <div>
       {(toggle == "AllMembers" || toggle == "addMember") && showButton()}
       {toggle == "AllMembers" && allMembers()}
       {toggle == "editMember" && editMember()}
       {toggle == "addMember" && addMember()}
+      {toggle == "memberLink" && memberFromLink()}
     </div>
   );
 };

@@ -3,20 +3,26 @@ import axios from "axios";
 import Movie from "../Views/Movie";
 import AddMovie from "./AddMovie";
 import EditMovie from "./EditMovie";
+import { useHistory } from "react-router-dom";
 
 const Movies = (props) => {
   const [movies, setMovies] = useState();
   const [movie, setMovie] = useState();
   const [toggle, setToggle] = useState("allMovies");
   const [find, setFind] = useState();
+  const history = useHistory();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/movies")
-      .then((resp) => setMovies(resp.data));
-    if (props.location !== undefined) {
-      setToggle("movieLink");
-    }
+    if (JSON.parse(sessionStorage.getItem("userInfo"))) {
+      if (JSON.parse(sessionStorage.getItem("userInfo")).Login == true) {
+        axios
+          .get("http://localhost:3001/movies")
+          .then((resp) => setMovies(resp.data));
+        if (props.location !== undefined) {
+          setToggle("movieLink");
+        }
+      }
+    } else return history.push("/");
   }, []);
 
   const allMovies = () => {

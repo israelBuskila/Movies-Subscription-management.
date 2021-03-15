@@ -22,6 +22,12 @@ exports.getAllUserWithPermissions = async () => {
   return arr;
 };
 
+exports.getPermissionsByUserName = async (userName) => {
+  let permissions = await permissionsDAL.getUserPermissionsByUserName(userName);
+  console.log(permissions);
+  return permissions[0].Permissions;
+};
+
 exports.addNewUser = async (obj) => {
   await userLogin.addUserLogin(obj);
 

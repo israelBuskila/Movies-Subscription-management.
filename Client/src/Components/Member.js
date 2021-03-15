@@ -12,6 +12,7 @@ const Member = (props) => {
   };
 
   const deleteMember = () => {
+    window.location.reload();
     axios.get(
       "http://localhost:3001/subscriptions/deleteMember/" +
         props.member.MemberId

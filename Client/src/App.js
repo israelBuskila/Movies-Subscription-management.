@@ -6,6 +6,7 @@ import Main from "./Components/Main";
 import Movies from "./Components/Movies";
 import ManageUsers from "./Components/ManageUsers";
 import Movie from "./Views/Movie";
+import Subscriptions from "./Components/Subscriptions";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Route exact path="/main" component={Main} />
           <Route exact path="/movies" component={Movies} />
           <Route exact path="/manageUsers" component={ManageUsers} />
-          <Route exact path="/movie" component={Movie} />
+          <Route exact path="/subscriptions" component={Subscriptions} />
         </Switch>
       </div>
     </Router>

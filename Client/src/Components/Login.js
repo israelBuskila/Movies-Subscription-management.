@@ -1,23 +1,41 @@
 import React, { useState, useEffect } from "react";
-import useSession from "react-session-hook";
+
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [permissions, setPermissions] = useState();
 
   let history = useHistory();
 
   const submit = () => {
+    console.log(userName);
     let obj = {
       UserName: userName,
       Password: password,
     };
     axios.post("http://localhost:3001/", obj).then(
       (response) => {
-        if (response.data == true) return history.push("/main");
-        else if (response.data === "User does not exist !") {
+        if (response.data == true) {
+          axios
+            .post("http://localhost:3001/users/getPermissions", {
+              userName: userName,
+            })
+            .then((resp) => {
+              console.log(resp);
+              setPermissions(resp);
+            });
+
+          let userInfo = {
+            UserName: obj.UserName,
+            Login: true,
+            Permissions: permissions,
+          };
+          sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+          return history.push("/main");
+        } else if (response.data === "User does not exist !") {
           alert(response.data);
           return history.push("/");
         } else {

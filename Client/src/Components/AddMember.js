@@ -25,7 +25,7 @@ const AddMember = (props) => {
       <br />
       City: <input type="text" onChange={(e) => setCity(e.target.value)} />
       <br />
-      <input type="button" value="update" onClick={saveButton} />
+      <input type="button" value="save" onClick={saveButton} />
       <input type="button" value="cancel" onClick={() => props.call()} />
     </div>
   );

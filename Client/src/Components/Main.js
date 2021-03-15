@@ -1,22 +1,24 @@
-import React, { useContext, useState, useEffect } from "react";
-import useSession from "react-session-hook";
+import React, { useState, useEffect } from "react";
+
 import { useHistory } from "react-router-dom";
 
 import ManageUsers from "./ManageUsers";
 import Movies from "./Movies";
 import Subscriptions from "./Subscriptions";
-import EditUser from "./EditUser";
 
 const Main = () => {
   let history = useHistory();
-  const session = useSession();
   const [toggle, setToggle] = useState("");
 
-  // if (session.isAuthenticated == false && session.isAdmin == false)
-  //   return history.push("/");
-  // else {
+  useEffect(() => {
+    if (JSON.parse(sessionStorage.getItem("userInfo"))) {
+      if (JSON.parse(sessionStorage.getItem("userInfo")).Login !== true)
+        return history.push("/");
+    } else return history.push("/");
+  }, []);
+
   let showManagUsers = () => {
-    if (true)
+    if (JSON.parse(sessionStorage.getItem("userInfo")).UserName == "Admin")
       return (
         <input
           type="button"
@@ -26,11 +28,6 @@ const Main = () => {
       );
   };
   let logOut = () => {
-    session.isAdmin = false;
-    console.log(session.isAdmin);
-    session.removeSession();
-    console.log(session.isAdmin);
-
     return history.push("/");
   };
 

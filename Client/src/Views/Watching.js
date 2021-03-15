@@ -7,7 +7,9 @@ const Watching = (props) => {
         {props.w.map((item, index) => {
           return (
             <li key={index}>
-              <Link to="">{item.memberName}</Link>
+              <Link to={{ pathname: "/subscriptions", state: { item } }}>
+                {item.memberName}
+              </Link>
               {", "}
               {item.date}
             </li>

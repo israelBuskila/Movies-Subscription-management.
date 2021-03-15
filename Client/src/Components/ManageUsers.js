@@ -4,6 +4,7 @@ import axios from "axios";
 import User from "../Views/User";
 import EditUser from "./EditUser";
 import AddUser from "./AddUser";
+import { useHistory } from "react-router-dom";
 
 const ManageUsers = (props) => {
   const [users, setUsers] = useState([]);
@@ -11,10 +12,16 @@ const ManageUsers = (props) => {
   const [mainToggle, setMainToggle] = useState("users");
   const [editUser, setEditUser] = useState();
 
+  let history = useHistory();
+
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/users")
-      .then((resp) => setUsers(resp.data));
+    if (JSON.parse(sessionStorage.getItem("userInfo"))) {
+      if (JSON.parse(sessionStorage.getItem("userInfo")).Login == true) {
+        axios
+          .get("http://localhost:3001/users")
+          .then((resp) => setUsers(resp.data));
+      }
+    } else return history.push("/");
   }, []);
 
   const showButtons = () => {
