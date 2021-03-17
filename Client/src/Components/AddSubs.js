@@ -59,7 +59,7 @@ const AddSubs = (props) => {
       <input type="text" onChange={(e) => setDate(e.target.value)} />
       <br />
       <input type="button" value="Subscribe" onClick={() => subscribe()} />
-      {choice}
+      {/* {choice} */}
     </div>
   );
 };

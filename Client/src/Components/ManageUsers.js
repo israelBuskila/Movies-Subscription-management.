@@ -21,7 +21,9 @@ const ManageUsers = (props) => {
           .get("http://localhost:3001/users")
           .then((resp) => setUsers(resp.data));
       }
-    } else return history.push("/");
+    } else {
+      return history.push("/");
+    }
   }, []);
 
   const showButtons = () => {

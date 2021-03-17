@@ -5,7 +5,6 @@ import CreateAccount from "./Components/CreateAccount";
 import Main from "./Components/Main";
 import Movies from "./Components/Movies";
 import ManageUsers from "./Components/ManageUsers";
-import Movie from "./Views/Movie";
 import Subscriptions from "./Components/Subscriptions";
 
 function App() {

@@ -6,8 +6,24 @@ const Movie = (props) => {
     if (props.movie.premiered) return props.movie.premiered.split("-", 1);
   };
 
+  const showEditButton = () => {
+    let permission = JSON.parse(
+      sessionStorage.getItem("userInfo")
+    ).Permissions.filter((x) => x == "updateMovies");
+    if (permission.length > 0)
+      return <input type="button" value="Edit" onClick={editMovie} />;
+  };
+
   const editMovie = () => {
     props.call(props.movie);
+  };
+
+  const shoeDeleteButton = () => {
+    let permission = JSON.parse(
+      sessionStorage.getItem("userInfo")
+    ).Permissions.filter((x) => x == "deleteMovies");
+    if (permission.length > 0)
+      return <input type="button" value="Delete" onClick={deleteMovie} />;
   };
 
   const deleteMovie = async () => {
@@ -21,7 +37,6 @@ const Movie = (props) => {
         {props.movie.name}
         {","} {premierd()}
       </h3>
-      id:{props.movie.id}
       <br />
       genres: {props.movie.genres.toString()}
       <br />
@@ -33,8 +48,8 @@ const Movie = (props) => {
       />
       <Watching w={props.movie.watchMovie} />
       <br />
-      <input type="button" value="Edit" onClick={editMovie} />
-      <input type="button" value="Delete" onClick={deleteMovie} />
+      {showEditButton()}
+      {shoeDeleteButton()}
     </div>
   );
 };

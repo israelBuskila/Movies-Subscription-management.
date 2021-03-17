@@ -13,7 +13,13 @@ const Subscriptions = (props) => {
 
   useEffect(() => {
     if (JSON.parse(sessionStorage.getItem("userInfo"))) {
-      if (JSON.parse(sessionStorage.getItem("userInfo")).Login == true) {
+      let permission = JSON.parse(
+        sessionStorage.getItem("userInfo")
+      ).Permissions.filter((x) => x == "View Subscriptions");
+      if (
+        JSON.parse(sessionStorage.getItem("userInfo")).Login == true &&
+        permission.length > 0
+      ) {
         axios
           .get("http://localhost:3001/subscriptions")
           .then((resp) => setMembers(resp.data));
@@ -66,7 +72,11 @@ const Subscriptions = (props) => {
     return <EditMember member={member} call={() => setToggle("AllMembers")} />;
   };
   const addMember = () => {
-    return <AddMember call={() => setToggle("AllMembers")} />;
+    let permission = JSON.parse(
+      sessionStorage.getItem("userInfo")
+    ).Permissions.filter((x) => x == "createSubscriptions");
+    if (permission.length > 0)
+      return <AddMember call={() => setToggle("AllMembers")} />;
   };
 
   const memberFromLink = () => {

@@ -14,7 +14,13 @@ const Movies = (props) => {
 
   useEffect(() => {
     if (JSON.parse(sessionStorage.getItem("userInfo"))) {
-      if (JSON.parse(sessionStorage.getItem("userInfo")).Login == true) {
+      let permission = JSON.parse(
+        sessionStorage.getItem("userInfo")
+      ).Permissions.filter((x) => x == "View Movies");
+      if (
+        JSON.parse(sessionStorage.getItem("userInfo")).Login == true &&
+        permission.length > 0
+      ) {
         axios
           .get("http://localhost:3001/movies")
           .then((resp) => setMovies(resp.data));
@@ -26,7 +32,7 @@ const Movies = (props) => {
   }, []);
 
   const allMovies = () => {
-    if (movies)
+    if (movies) {
       return movies.map((item, index) => {
         return (
           <Movie
@@ -38,10 +44,15 @@ const Movies = (props) => {
           />
         );
       });
+    }
   };
 
   const addMovie = () => {
-    return <AddMovie callback={() => setToggle("allMovies")} />;
+    let permission = JSON.parse(
+      sessionStorage.getItem("userInfo")
+    ).Permissions.filter((x) => x == "createMovies");
+    if (permission.length > 0)
+      return <AddMovie callback={() => setToggle("allMovies")} />;
   };
 
   const findButton = () => {

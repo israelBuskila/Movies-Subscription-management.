@@ -6,9 +6,25 @@ import axios from "axios";
 const Member = (props) => {
   const [toggle, setToggle] = useState(false);
 
+  const showEditButton = () => {
+    let permission = JSON.parse(
+      sessionStorage.getItem("userInfo")
+    ).Permissions.filter((x) => x == "updateSubscriptions");
+    if (permission.length > 0)
+      return <input type="button" value="Edit" onClick={edit} />;
+  };
+
   //button to edit member -
   const edit = () => {
     props.call(props.member);
+  };
+
+  const showDeleteButton = () => {
+    let permission = JSON.parse(
+      sessionStorage.getItem("userInfo")
+    ).Permissions.filter((x) => x == "deleteSubscriptions");
+    if (permission.length > 0)
+      return <input type="button" value="Delete" onClick={deleteMember} />;
   };
 
   const deleteMember = () => {
@@ -41,8 +57,8 @@ const Member = (props) => {
       <br />
       City: {props.member.City}
       <br />
-      <input type="button" value="Edit" onClick={edit} />
-      <input type="button" value="Delete" onClick={deleteMember} />
+      {showEditButton()}
+      {showDeleteButton()}
       <h3>Movies Watched</h3>
       <input
         type="button"
