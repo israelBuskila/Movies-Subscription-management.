@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Movie from "../Views/Movie";
+import Movie from "../Pages/Movie";
 import AddMovie from "./AddMovie";
 import EditMovie from "./EditMovie";
 import { useHistory } from "react-router-dom";

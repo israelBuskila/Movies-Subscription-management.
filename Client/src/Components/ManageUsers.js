@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import axios from "axios";
-import User from "../Views/User";
+import User from "../Pages/User";
 import EditUser from "./EditUser";
 import AddUser from "./AddUser";
 import { useHistory } from "react-router-dom";
