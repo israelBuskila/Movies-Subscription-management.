@@ -1,4 +1,4 @@
-import Watching from "../Views/Watching";
+import Watching from "../Pages/Watching";
 import axios from "axios";
 
 const Movie = (props) => {
